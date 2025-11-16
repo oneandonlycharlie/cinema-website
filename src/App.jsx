@@ -8,17 +8,36 @@ function RootWrapper() {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    fetch("/api/auth/me")
-      .then(res => res.json())
-      .then(data => setUser(data.user || null));
+    const token = localStorage.getItem("jwtToken");
+    if (token) {
+      fetch("/api/auth/me", {
+        headers: {
+          "Authorization": `Bearer ${token}`
+        }
+      })
+        .then(res => res.json())
+        .then(data => setUser(data.user || null))
+        .catch(() => setUser(null));
+    }
   }, []);
 
   const handleLogout = async () => {
-    await fetch("/api/auth/logout", { method: "POST" });
+    const token = localStorage.getItem("jwtToken");
+    if (token) {
+      await fetch("/api/auth/logout", {
+        method: "POST",
+        headers: { "Authorization": `Bearer ${token}` }
+      });
+    }
+    localStorage.removeItem("jwtToken");
     setUser(null);
   };
 
-  return <Root user={user} onLogout={handleLogout} />;
+  const handleLogin = (userData, token) => {
+    localStorage.setItem("jwtToken", token); // 存 token
+    setUser(userData);
+  }
+  return <Root user={user} onLogout={handleLogout} onLogin={handleLogin}/>;
 }
 
 const router = createBrowserRouter([
@@ -37,3 +56,4 @@ const router = createBrowserRouter([
 ]);
 
 export default router;
+
