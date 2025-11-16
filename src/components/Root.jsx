@@ -2,7 +2,7 @@ import { Outlet, Link } from "react-router-dom";
 import "../css/Root.css"; 
 
 
-export default function Root({ user, onLogout }) {
+export default function Root({ user, onLogout, onLogin }) {
   return (
     <div>
       <nav className="navbar">
@@ -24,7 +24,7 @@ export default function Root({ user, onLogout }) {
         )}
       </nav>
 
-      <Outlet />
+      <Outlet context={{ onLogin: user?.onLogin }} />
     </div>
   );
 }
