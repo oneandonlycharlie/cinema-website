@@ -3,12 +3,11 @@ import { useNavigate, useOutletContext } from "react-router-dom";
 
 
 export default function Login() {
-    const { onLogin } = useOutletContext();
+  const { onLogin } = useOutletContext();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
   const navigate = useNavigate();
-  const API_BASE = import.meta.env.VITE_API_BASE_URL;
 
 
   const handleSubmit = async (e) => {
@@ -16,16 +15,17 @@ export default function Login() {
     setError(null);
 
     try {
-      const res = await fetch(`${API_BASE}/login`, {
+      const res = await fetch(`api/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
       });
 
-      const data = await res.json();
+      const result = await res.json();
 
       if (res.ok) {
-        onLogin(data.user, data.token);  
+        const { user, token } = result.data;
+        onLogin(user, token);  
         navigate("/");
       } else {
         setError(data.message || "Login failed");
