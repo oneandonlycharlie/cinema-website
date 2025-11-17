@@ -3,6 +3,8 @@ import Root from "./components/Root";
 import { useState, useEffect } from "react";
 import Home from "./components/Home";
 import Login from "./components/Login";
+import Film from "./components/Film";
+import AdminPage from "./components/AdminPage";
 
 function RootWrapper() {
   const [user, setUser] = useState(null);
@@ -52,7 +54,8 @@ const router = createBrowserRouter([
       // { path: "contact", element: <Contact /> },
       // { path: "dashboard", element: <Dashboard /> },
       { path: "login", element: <Login /> },
-      // { path: "register", element: <Register /> },
+      { path: "films/:id", element: <Film /> },
+      { path: "admin", element: <AdminPage /> },
     ],
   },
 ]);
