@@ -10,13 +10,15 @@ function RootWrapper() {
   useEffect(() => {
     const token = localStorage.getItem("jwtToken");
     if (token) {
-      fetch("/api/auth/me", {
+      fetch("/api/users/me", {
         headers: {
           "Authorization": `Bearer ${token}`
         }
       })
         .then(res => res.json())
-        .then(data => setUser(data.user || null))
+        .then((data) => {
+          setUser(data.data);  
+        })
         .catch(() => setUser(null));
     }
   }, []);
