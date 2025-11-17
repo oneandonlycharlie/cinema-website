@@ -24,7 +24,7 @@ export default function Root({ user, onLogout, onLogin }) {
         )}
       </nav>
 
-      <Outlet context={{ onLogin: user?.onLogin }} />
+      <Outlet context={{ onLogin }} />
     </div>
   );
 }
