@@ -1,0 +1,56 @@
+.admin-container {
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.film-form,
+.session-form {
+  margin-bottom: 20px;
+  display: flex;
+  gap: 8px;
+}
+
+input {
+  padding: 4px 6px;
+}
+
+button {
+  padding: 4px 8px;
+  cursor: pointer;
+}
+
+.films-list {
+  list-style: none;
+  padding: 0;
+}
+
+.film-item {
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  padding: 12px;
+  margin-bottom: 16px;
+}
+
+.sessions-section {
+  margin-top: 10px;
+}
+
+.sessions-section ul {
+  list-style: none;
+  padding: 0;
+}
+
+.sessions-section li {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.loading {
+  font-size: 16px;
+}
+
+.error {
+  color: red;
+  font-size: 16px;
+}

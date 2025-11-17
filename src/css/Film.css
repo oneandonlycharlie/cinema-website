@@ -1,0 +1,64 @@
+.details-container {
+  padding: 20px;
+}
+
+.details-title {
+  font-size: 26px;
+  font-weight: bold;
+  margin-bottom: 12px;
+}
+
+.details-description {
+  font-size: 16px;
+  margin-bottom: 8px;
+}
+
+.details-duration {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 16px;
+}
+
+.sessions-title {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 12px;
+}
+
+.sessions-list {
+  list-style: none;
+  padding: 0;
+}
+
+.session-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  padding: 10px;
+  margin-bottom: 8px;
+}
+
+.book-button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.book-button:hover {
+  background-color: #0056b3;
+}
+
+.loading {
+  font-size: 16px;
+}
+
+.error {
+  color: red;
+  font-size: 16px;
+}
