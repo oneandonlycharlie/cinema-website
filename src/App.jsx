@@ -3,8 +3,10 @@ import Root from "./components/Root";
 import { useState, useEffect } from "react";
 import Home from "./components/Home";
 import Login from "./components/Login";
-import Film from "./components/Film";
-import AdminPage from "./components/AdminPage";
+import Film from "./components/FilmDetails";
+import Films from "./components/Films";
+import Hall from "./components/Halls";
+import Order from "./components/Orders";
 
 function RootWrapper() {
   const [user, setUser] = useState(null);
@@ -55,7 +57,9 @@ const router = createBrowserRouter([
       // { path: "dashboard", element: <Dashboard /> },
       { path: "login", element: <Login /> },
       { path: "films/:id", element: <Film /> },
-      { path: "admin", element: <AdminPage /> },
+      { path: "films", element: <Films /> },
+      { path: "halls", element: <Hall /> },
+      { path: "orders", element: <Order />}
     ],
   },
 ]);

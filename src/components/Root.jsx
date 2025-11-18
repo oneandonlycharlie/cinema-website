@@ -7,9 +7,9 @@ export default function Root({ user, onLogout, onLogin }) {
     <div>
       <nav className="navbar">
         <Link to="/">Home</Link>
-        <Link to="/admin">Admin Page</Link>
-        <Link to="/contact">XX</Link>
-        <Link to="/dashboard">XX</Link>
+        <Link to="/films">Films</Link>
+        <Link to="/halls">Halls</Link>
+        <Link to="/orders">Orders</Link>
 
         {user ? (
           <>
