@@ -1,4 +1,3 @@
-// Films.jsx
 import { useEffect, useState } from "react";
 import FilmItem from "./FilmItem";
 import "../css/Films.css";
@@ -8,6 +7,7 @@ export default function Films() {
   const [films, setFilms] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [halls, setHalls] = useState([]);
 
   const [newFilm, setNewFilm] = useState({
     name: "",
@@ -23,6 +23,7 @@ export default function Films() {
 
   useEffect(() => {
     fetchFilms();
+    fetchHalls();
   }, []);
 
   const fetchFilms = async () => {
@@ -31,7 +32,7 @@ export default function Films() {
         headers: { Authorization: `Bearer ${token}` },
       });
       const result = await res.json();
-      console.warn(result)
+      console.warn("All films", result)
       if (res.ok) setFilms(result.data || []);
       else setError(result.message);
     } catch {
@@ -39,6 +40,15 @@ export default function Films() {
     } finally {
       setLoading(false);
     }
+  };
+
+  const fetchHalls = async () => {
+    const res = await fetch("/api/halls", {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    const data = await res.json();
+    console.warn("All halls", data)
+    if (res.ok) setHalls(data.data || []);
   };
 
   const addShowtime = async (filmId, form) => {
@@ -50,17 +60,17 @@ export default function Films() {
     if (res.ok) fetchFilms();
   };
 
-  const updateShowtime = async (id, data) => {
-    await fetch(`/api/showtimes/${id}`, {
-      method: "PUT",
+  const updateShowtime = async (filmId, id, data) => {
+    await fetch(`/api/films/${filmId}/showtimes/${id}`, {
+      method: "PATCH",
       headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
       body: JSON.stringify(data),
     });
     fetchFilms();
   };
 
-  const deleteShowtime = async (id) => {
-    await fetch(`/api/showtimes/${id}`, { method: "DELETE", Authorization: `Bearer ${token}` });
+  const deleteShowtime = async (filmId, id) => {
+    await fetch(`/api/films/${filmId}/showtimes/${id}`, { method: "DELETE", headers:{Authorization: `Bearer ${token}` }});
     fetchFilms();
   };
 
@@ -118,6 +128,7 @@ export default function Films() {
             onAddShowtime={addShowtime}
             onUpdateShowtime={updateShowtime}
             onDeleteShowtime={deleteShowtime}
+            halls = {halls}
           />
         ))}
       </ul>
