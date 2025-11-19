@@ -5,7 +5,7 @@ import "../css/FilmDetails.css";
 export default function filmDetails() {
   const { id } = useParams();
   const [film, setfilm] = useState(null);
-  const [sessions, setSessions] = useState([]);
+  const [showtimes, setshowtimes] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const token = localStorage.getItem("jwtToken");
@@ -19,10 +19,10 @@ export default function filmDetails() {
           method: "GET",
         });
         const result = await res.json();
-
+        console.warn(result)
         if (res.ok) {
           setfilm(result.data);
-          setSessions([]);
+          setshowtimes(result.data.showTimes);
         } else {
           setError(result.message || "Failed to fetch film details");
         }
@@ -37,10 +37,10 @@ export default function filmDetails() {
     fetchfilm();
   }, [id]);
 
-  const handleBooking = (sessionId) => {
+  const handleBooking = (showtimeId) => {
     // 跳转到订票页，或者打开 modal
-    console.log("Booking session", sessionId);
-    alert(`Booking session ${sessionId}...`);
+    console.log("Booking showtime", showtimeId);
+    alert(`Booking showtime ${showtimeId}...`);
   };
 
   if (loading) return <p className="loading">Loading film details...</p>;
@@ -53,16 +53,16 @@ export default function filmDetails() {
       <p className="details-description">{film.intro}</p>
       <p className="details-duration">Duration: {film.length} min</p>
 
-      <h2 className="sessions-title">Sessions</h2>
-      <ul className="sessions-list">
-        {sessions.map((session) => (
-          <li key={session.id} className="session-item">
+      <h2 className="showtimes-title">showtimes</h2>
+      <ul className="showtimes-list">
+        {showtimes.map((showtime) => (
+          <li key={showtime.id} className="showtime-item">
             <span>
-              {new Date(session.startTime).toLocaleString()} | Hall: {session.hall}
+              {new Date(showtime.startTime).toLocaleString()} |  {showtime.hallName}
             </span>
             <button
               className="book-button"
-              onClick={() => handleBooking(session.id)}
+              onClick={() => handleBooking(showtime.id)}
             >
               Book
             </button>
