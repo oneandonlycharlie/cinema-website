@@ -1,4 +1,4 @@
-// FilmItem.jsx
+import { useState, useEffect } from "react";
 import AddShowtimeForm from "./AddShowTimeForm";
 
 export default function FilmItem({
@@ -10,9 +10,37 @@ export default function FilmItem({
   onAddShowtime,
   onUpdateShowtime,
   onDeleteShowtime,
+  halls
 }) {
+  const [localShowtimes, setLocalShowtimes] = useState([]);
+  const [editingShowtimeId, setEditingShowtimeId] = useState(null);
+
+  useEffect(() => {
+    if (film.showTimes) {
+      setLocalShowtimes(film.showTimes);
+    }
+  }, [film.showTimes]);
+
+  const handleShowtimeChangeLocally = (showtimeId, field, value) => {
+    setLocalShowtimes(prev =>
+      prev.map(st => st.id === showtimeId ? { ...st, [field]: value } : st)
+    );
+  };
+
+  const saveShowtime = (showtimeId) => {
+    const st = localShowtimes.find(s => s.id === showtimeId);
+    const body = {
+      startTime: st.startTime,
+      hallId: st.hallId,
+      price: st.price
+    };
+    onUpdateShowtime(film.id, showtimeId, body);
+    setEditingShowtimeId(null);
+  };
+
   return (
     <li className="film-item">
+      {/* 编辑电影信息 */}
       {editingFilm?.id === film.id ? (
         <>
           <input
@@ -54,49 +82,57 @@ export default function FilmItem({
 
       {/* Showtime 列表 */}
       <div className="showtimes-section">
-        <h3>showtimes</h3>
+        <h3>Showtimes</h3>
         <ul>
-          {film.showtimes?.map((showtime) => (
+          {localShowtimes.map((showtime) => (
             <li key={showtime.id}>
-              <input
-                type="datetime-local"
-                value={showtime.startTime?.slice(0, 16)}
-                onChange={(e) =>
-                  onUpdateShowtime(showtime.id, {
-                    ...showtime,
-                    startTime: e.target.value,
-                  })
-                }
-              />
-              <input
-                type="text"
-                value={showtime.hall}
-                onChange={(e) =>
-                  onUpdateShowtime(showtime.id, {
-                    ...showtime,
-                    hall: e.target.value,
-                  })
-                }
-              />
-              <input
-                type="number"
-                value={showtime.price}
-                onChange={(e) =>
-                  onUpdateShowtime(showtime.id, {
-                    ...showtime,
-                    price: Number(e.target.value),
-                  })
-                }
-              />
-              <button onClick={() => onDeleteShowtime(showtime.id)}>
-                Delete
-              </button>
+              {editingShowtimeId === showtime.id ? (
+                <>
+                  <input
+                    type="datetime-local"
+                    value={showtime.startTime?.slice(0, 16)}
+                    onChange={(e) =>
+                      handleShowtimeChangeLocally(showtime.id, "startTime", e.target.value)
+                    }
+                  />
+                  <select
+                    value={showtime.hallId || ""}
+                    onChange={(e) =>
+                      handleShowtimeChangeLocally(showtime.id, "hallId", parseInt(e.target.value))
+                    }
+                  >
+                    <option value="">Select Hall</option>
+                    {halls.map((hall) => (
+                      <option key={hall.id} value={hall.id}>
+                        {hall.name}
+                      </option>
+                    ))}
+                  </select>
+                  <input
+                    type="number"
+                    value={showtime.price}
+                    onChange={(e) =>
+                      handleShowtimeChangeLocally(showtime.id, "price", Number(e.target.value))
+                    }
+                  />
+                  <button onClick={() => saveShowtime(showtime.id)}>Save</button>
+                  <button onClick={() => setEditingShowtimeId(null)}>Cancel</button>
+                </>
+              ) : (
+                <>
+                  <span>
+                    {showtime.startTime?.slice(0,16)} - {showtime.hallName} - ${showtime.price}
+                  </span>
+                  <button onClick={() => setEditingShowtimeId(showtime.id)}>Edit</button>
+                  <button onClick={() => onDeleteShowtime(film.id, showtime.id)}>Delete</button>
+                </>
+              )}
             </li>
           ))}
         </ul>
 
-        {/* 新增 showtime（独立组件） */}
-        <AddShowtimeForm filmId={film.id} onAdd={onAddShowtime} />
+        {/* 新增 showtime */}
+        <AddShowtimeForm filmId={film.id} onAdd={onAddShowtime} halls={halls} />
       </div>
     </li>
   );
