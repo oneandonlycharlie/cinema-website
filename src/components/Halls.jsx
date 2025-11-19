@@ -4,11 +4,34 @@ export default function HallAdminPage() {
   const [halls, setHalls] = useState([]);
   const [newHall, setNewHall] = useState({ name: "", capacity: 0 });
   const [editingHall, setEditingHall] = useState(null);
-
+  const [showtimes, setShowtimes] = useState([]);
   const token = localStorage.getItem("jwtToken");
+
+  const fetchAllShowtimes = async () => {
+    const resFilms = await fetch("/api/films", {
+      headers: { Authorization: `Bearer ${token}` }
+    });
+    const filmsResult = await resFilms.json();
+    const films = filmsResult.data || [];
+
+    const allShowtimes = [];
+    for (const film of films) {
+      const res = await fetch(`/api/films/${film.id}/showtimes`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      const result = await res.json();
+      if (res.ok) {
+        const stWithFilm = result.data.map(st => ({ ...st, filmName: film.name }));
+        allShowtimes.push(...stWithFilm);
+      }
+    }
+
+    setShowtimes(allShowtimes);
+  };
 
   useEffect(() => {
     fetchHalls();
+    fetchAllShowtimes();
   }, []);
 
   const fetchHalls = async () => {
@@ -48,6 +71,16 @@ export default function HallAdminPage() {
     fetchHalls();
   };
 
+  const deleteShowtime = async (filmId, showtimeId) => {
+    await fetch(`/api/films/${filmId}/showtimes/${showtimeId}`, {
+      method: "DELETE",
+      headers: { Authorization: `Bearer ${token}` }
+    });
+    fetchAllShowtimes();
+  };
+
+  console.warn(showtimes)
+
   return (
     <div className="admin-container">
       <h1>🏟️ Hall Management</h1>
@@ -55,7 +88,7 @@ export default function HallAdminPage() {
       {/* Add hall */}
       <div>
         <input placeholder="Hall name" value={newHall.name} onChange={e => setNewHall({ ...newHall, name: e.target.value })} />
-        <input type="number" placeholder="Capacity" value={newHall.capacity} onChange={e => setNewHall({ ...newHall, capacity: e.target.value })} />
+        <input type="number" placeholder="Capacity" value={newHall.capacity} onChange={e => setNewHall({ ...newHall, capacity: Number(e.target.value) })} />
         <button onClick={addHall}>Add Hall</button>
       </div>
 
@@ -65,13 +98,28 @@ export default function HallAdminPage() {
             {editingHall?.id === h.id ? (
               <>
                 <input value={editingHall.name} onChange={e => setEditingHall({ ...editingHall, name: e.target.value })} />
-                <input type="number" value={editingHall.capacity} onChange={e => setEditingHall({ ...editingHall, capacity: e.target.value })} />
+                <input type="number" value={editingHall.capacity} onChange={e => setEditingHall({ ...editingHall, capacity: Number(e.target.value) })} />
                 <button onClick={() => updateHall(h.id)}>Save</button>
                 <button onClick={() => setEditingHall(null)}>Cancel</button>
               </>
             ) : (
               <>
                 <strong>{h.name}</strong> - {h.capacity} seats
+                <ul>
+                  {showtimes
+                    .filter(st => st.hallId === h.id)
+                    .map(st => (
+                      <li key={st.id}>
+                        {st.startTime.slice(0,16)} - Film : {st.filmName} - Price: {st.price}
+                        <button
+                          onClick={() => deleteShowtime(st.filmId, st.id)}
+                        >
+                          Delete Showtime
+                        </button>
+                      </li>
+                    ))
+                  }
+                </ul>
                 <button onClick={() => setEditingHall(h)}>Edit</button>
                 <button onClick={() => deleteHall(h.id)}>Delete</button>
               </>
