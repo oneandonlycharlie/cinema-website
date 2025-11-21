@@ -9,7 +9,7 @@ export default function Root({ user, onLogout, onLogin }) {
         <Link to="/">Home</Link>
         <Link to="/films">Films</Link>
         <Link to="/halls">Halls</Link>
-        <Link to="/orders">Orders</Link>
+        <Link to="/tickets">Tickets</Link>
 
         {user ? (
           <>

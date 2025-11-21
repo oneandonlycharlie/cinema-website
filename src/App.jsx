@@ -7,6 +7,9 @@ import Film from "./components/FilmDetails";
 import Films from "./components/Films";
 import Hall from "./components/Halls";
 import Order from "./components/Orders";
+import OrderDetails from "./components/OrderDetails";
+import RegistrationPage from "./components/RegistrationPage";
+import Tickets from "./components/Tickets";
 
 function RootWrapper() {
   const [user, setUser] = useState(null);
@@ -52,14 +55,14 @@ const router = createBrowserRouter([
     element: <RootWrapper />,
     children: [
       { index: true, element: <Home /> },
-      // { path: "about", element: <About /> },
-      // { path: "contact", element: <Contact /> },
-      // { path: "dashboard", element: <Dashboard /> },
       { path: "login", element: <Login /> },
       { path: "films/:id", element: <Film /> },
       { path: "films", element: <Films /> },
       { path: "halls", element: <Hall /> },
-      { path: "orders", element: <Order />}
+      { path: "orders", element: <Order />},
+      { path: "orders/:id", element: <OrderDetails />},
+      { path: "register", element: <RegistrationPage />},
+      { path: "tickets", element: <Tickets />},
     ],
   },
 ]);
