@@ -1,0 +1,31 @@
+.my-tickets-container {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.ticket-card {
+  padding: 16px;
+  border-radius: 10px;
+  background: #949090;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+.ticket-card h3 {
+  margin: 0 0 8px 0;
+}
+
+.ticket-card p {
+  margin: 4px 0;
+}
+
+.tickets-list ul {
+  margin: 4px 0 0 16px;
+  padding: 0;
+  list-style: disc;
+}
+
+.error {
+  color: red;
+}
