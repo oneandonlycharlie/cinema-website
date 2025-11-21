@@ -32,7 +32,6 @@ export default function Films() {
         headers: { Authorization: `Bearer ${token}` },
       });
       const result = await res.json();
-      console.warn("All films", result)
       if (res.ok) setFilms(result.data || []);
       else setError(result.message);
     } catch {
@@ -75,18 +74,18 @@ export default function Films() {
   };
 
   const addFilm = async (film) => {
-  const res = await fetch("/api/films", {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(film),
-  });
-  if (res.ok) {
-    fetchFilms();
-  }
-};
+    const res = await fetch("/api/films", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(film),
+    });
+    if (res.ok) {
+      fetchFilms();
+    }
+  };
 
   const updateFilm = async (id) => {
     await fetch(`/api/films/${id}`, {
