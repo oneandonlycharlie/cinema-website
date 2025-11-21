@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import "../css/FilmDetails.css";
 
 export default function FilmDetails() {
@@ -11,6 +11,7 @@ export default function FilmDetails() {
   const [bookingShowtime, setBookingShowtime] = useState(null);
   const [seatsToBook, setSeatsToBook] = useState(1);
   const token = localStorage.getItem("jwtToken");
+  const navigate = useNavigate(); 
 
   useEffect(() => {
     const fetchFilm = async () => {
@@ -32,34 +33,37 @@ export default function FilmDetails() {
 
   const handleBookingClick = (showtime) => {
     setBookingShowtime(showtime);
-    setSeatsToBook(1); // 默认 1 个座位
+    setSeatsToBook(1); 
   };
 
   const handleConfirmBooking = async () => {
-    try {
-      const res = await fetch(`/api/tickets`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          showtimeId: bookingShowtime.id,
-          seats: seatsToBook,
-        }),
-      });
+  try {
+    const res = await fetch(`/api/orders`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        showtimeId: bookingShowtime.id,
+        seatCount: seatsToBook,   
+      }),
+    });
 
-      const result = await res.json();
-      if (res.ok) {
-        alert(`Booking successful! ${seatsToBook} seat(s) reserved.`);
-        setBookingShowtime(null);
-      } else {
-        alert(`Booking failed: ${result.message}`);
-      }
-    } catch {
-      alert("Network error while booking");
+    const result = await res.json();
+
+    if (res.ok) {
+      const order = result.data;
+      navigate(`/orders/${order.id}`, { state: { order } });
+    } else {
+      alert(`Order failed: ${result.message}`);
     }
-  };
+  } catch (err) {
+    console.error(err);
+    alert("Network error while creating order");
+  }
+};
+
 
   if (loading) return <p className="loading">Loading film details...</p>;
   if (error) return <p className="error">{error}</p>;
