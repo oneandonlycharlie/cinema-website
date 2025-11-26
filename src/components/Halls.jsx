@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import "../css/Halls.css";
 
 export default function HallAdminPage() {
   const [halls, setHalls] = useState([]);
@@ -84,7 +85,9 @@ export default function HallAdminPage() {
 
       {/* Add hall */}
       <div>
+        <label>Hall Name</label>
         <input placeholder="Hall name" value={newHall.name} onChange={e => setNewHall({ ...newHall, name: e.target.value })} />
+        <label>Capacity</label>
         <input type="number" placeholder="Capacity" value={newHall.capacity} onChange={e => setNewHall({ ...newHall, capacity: Number(e.target.value) })} />
         <button onClick={addHall}>Add Hall</button>
       </div>
@@ -94,7 +97,9 @@ export default function HallAdminPage() {
           <li key={h.id}>
             {editingHall?.id === h.id ? (
               <>
+                <label>Hall Name</label>
                 <input value={editingHall.name} onChange={e => setEditingHall({ ...editingHall, name: e.target.value })} />
+                <label>Capacity</label>
                 <input type="number" value={editingHall.capacity} onChange={e => setEditingHall({ ...editingHall, capacity: Number(e.target.value) })} />
                 <button onClick={() => updateHall(h.id)}>Save</button>
                 <button onClick={() => setEditingHall(null)}>Cancel</button>

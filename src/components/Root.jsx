@@ -7,7 +7,9 @@ export default function Root({ user, onLogout, onLogin }) {
     <div>
       <nav className="navbar">
         <Link to="/">Home</Link>
-        <Link to="/tickets">Tickets</Link>
+        { user && (<>
+          <Link to="/tickets">Tickets</Link>
+        </> )}
         { user && user.role === "ROLE_ADMIN" && (<>
           <Link to="/films">Films</Link>
           <Link to="/halls">Halls</Link>

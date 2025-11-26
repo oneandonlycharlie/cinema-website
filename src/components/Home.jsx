@@ -1,24 +1,24 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../css/Home.css";
+import.meta.env.VITE_API_BASE_URL;
 
 export default function Home() {
-  const [films, setfilms] = useState([]);
+  const [films, setFilms] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
   const token = localStorage.getItem("jwtToken");
 
   useEffect(() => {
-    const fetchfilms = async () => {
+    const fetchFilms = async () => {
       try {
-        const res = await fetch("/api/films",{
-          headers: { "Authorization": `Bearer ${token}` },
-          method: "GET",
+        const res = await fetch("/api/films", {
+          headers: { Authorization: `Bearer ${token}` },
         });
         const result = await res.json();
         if (res.ok) {
-          setfilms(result.data || []);
+          setFilms(result.data || []);
         } else {
           setError(result.message || "Failed to fetch films");
         }
@@ -30,8 +30,8 @@ export default function Home() {
       }
     };
 
-    fetchfilms();
-  }, []);
+    fetchFilms();
+  }, [token]);
 
   if (loading) return <p className="loading">Loading films...</p>;
   if (error) return <p className="error">{error}</p>;
@@ -46,6 +46,9 @@ export default function Home() {
             className="film-card"
             onClick={() => navigate(`/films/${film.id}`)}
           >
+            <div className="film-cover">
+              <img src={`${import.meta.env.VITE_API_BASE_URL}${film.coverImageUrl}`} alt={film.name} />
+            </div>
             <h2 className="film-title">{film.name}</h2>
             <p className="film-description">{film.intro}</p>
             <p className="film-duration">Duration: {film.length} min</p>

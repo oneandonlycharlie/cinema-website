@@ -38,28 +38,37 @@ export default function AddShowtimeForm({ filmId, onAdd }) {
 
   return (
     <div className="showtime-form">
-      <input
-        type="datetime-local"
-        value={form.startTime}
-        onChange={(e) => setForm({ ...form, startTime: e.target.value })}
-      />
-      <select
-        value={form.hallId}
-        onChange={(e) => setForm({ ...form, hallId: parseInt(e.target.value) })}
-      >
-        <option value="">Select Hall</option>
-        {halls.map((hall) => (
-          <option key={hall.id} value={hall.id}>
-            {hall.name} {/* 展示名字 */}
-          </option>
-        ))}
-      </select>
-      <input
-        type="number"
-        placeholder="Price"
-        value={form.price}
-        onChange={(e) => setForm({ ...form, price: Number(e.target.value) })}
-      />
+      <div>
+        <label>Time</label>
+        <input
+          type="datetime-local"
+          value={form.startTime}
+          onChange={(e) => setForm({ ...form, startTime: e.target.value })}
+        />
+      </div>
+      <div>
+        <label>Hall</label>
+        <select
+          value={form.hallId}
+          onChange={(e) => setForm({ ...form, hallId: parseInt(e.target.value) })}
+        >
+          <option value="">Select Hall</option>
+          {halls.map((hall) => (
+            <option key={hall.id} value={hall.id}>
+              {hall.name} {/* 展示名字 */}
+            </option>
+          ))}
+        </select>        
+      </div>
+      <div>
+        <label>Price</label>
+        <input
+          type="number"
+          placeholder="Price"
+          value={form.price}
+          onChange={(e) => setForm({ ...form, price: Number(e.target.value) })}
+        />
+      </div>
       <button onClick={handleSubmit}>Add showtime</button>
     </div>
   );

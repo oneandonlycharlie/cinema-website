@@ -3,6 +3,7 @@ import FilmItem from "./FilmItem";
 import "../css/Films.css";
 import AddFilmForm from "./AddFilmForm";
 
+
 export default function Films() {
   const [films, setFilms] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -117,7 +118,6 @@ export default function Films() {
   return (
     <div className="admin-container">
       <h1>Film Management</h1>
-      <AddFilmForm onAdd={addFilm} />
       <ul className="films-list">
         {films.map((film) => (
           <FilmItem
@@ -134,6 +134,7 @@ export default function Films() {
           />
         ))}
       </ul>
+      <AddFilmForm onAdd={addFilm} />
     </div>
   );
 }
