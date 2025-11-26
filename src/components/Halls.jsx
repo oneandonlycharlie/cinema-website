@@ -39,7 +39,6 @@ export default function HallAdminPage() {
       headers: { Authorization: `Bearer ${token}` }
     });
     const result = await res.json();
-    console.warn(result)
     if (res.ok) setHalls(result.data);
   };
 
@@ -78,8 +77,6 @@ export default function HallAdminPage() {
     });
     fetchAllShowtimes();
   };
-
-  console.warn(showtimes)
 
   return (
     <div className="admin-container">

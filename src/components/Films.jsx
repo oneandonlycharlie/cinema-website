@@ -46,7 +46,6 @@ export default function Films() {
       headers: { Authorization: `Bearer ${token}` },
     });
     const data = await res.json();
-    console.warn("All halls", data)
     if (res.ok) setHalls(data.data || []);
   };
 
@@ -56,15 +55,21 @@ export default function Films() {
       headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
       body: JSON.stringify(form),
     });
+    if (res.status === 409) {
+      alert("This showtime conflicts with an existing showtime in the same hall. Please choose a different time or hall.");
+    }
     if (res.ok) fetchFilms();
   };
 
   const updateShowtime = async (filmId, id, data) => {
-    await fetch(`/api/films/${filmId}/showtimes/${id}`, {
-      method: "PATCH",
+    const res = await fetch(`/api/films/${filmId}/showtimes/${id}`, {
+      method: "PUT",
       headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
       body: JSON.stringify(data),
     });
+    if (res.status === 409) {
+      alert("This showtime conflicts with an existing showtime in the same hall. Please choose a different time or hall.");
+    }
     fetchFilms();
   };
 
@@ -73,28 +78,26 @@ export default function Films() {
     fetchFilms();
   };
 
-  const addFilm = async (film) => {
+  const addFilm = async (formData) => {
     const res = await fetch("/api/films", {
       method: "POST",
       headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`
       },
-      body: JSON.stringify(film),
+      body: formData,
     });
     if (res.ok) {
       fetchFilms();
     }
   };
 
-  const updateFilm = async (id) => {
+  const updateFilm = async (id, formData) => {
     await fetch(`/api/films/${id}`, {
       method: "PATCH",
       headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`
       },
-      body: JSON.stringify(editingFilm),
+      body: formData
     });
     setEditingFilm(null);
     fetchFilms();
