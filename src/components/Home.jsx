@@ -36,8 +36,6 @@ export default function Home() {
   if (loading) return <p className="loading">Loading films...</p>;
   if (error) return <p className="error">{error}</p>;
 
-  console.warn(films);
-
   return (
     <div className="home-container">
       <h1 className="home-title">Now Showing</h1>
