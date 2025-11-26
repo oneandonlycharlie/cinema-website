@@ -14,7 +14,6 @@ export default function Tickets() {
           headers: { Authorization: `Bearer ${token}` },
         });
         const result = await res.json();
-        console.warn("User orders", result);
         if (res.ok) setOrders(result.data || []);
         else setError(result.message || "Failed to load tickets");
       } catch {
