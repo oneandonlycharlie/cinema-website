@@ -7,14 +7,15 @@ export default function Root({ user, onLogout, onLogin }) {
     <div>
       <nav className="navbar">
         <Link to="/">Home</Link>
-        <Link to="/films">Films</Link>
-        <Link to="/halls">Halls</Link>
         <Link to="/tickets">Tickets</Link>
-
+        { user && user.role === "ROLE_ADMIN" && (<>
+          <Link to="/films">Films</Link>
+          <Link to="/halls">Halls</Link>
+        </>)}
         {user ? (
           <>
             <span> Welcome, {user.name}! </span>
-            <button onClick={onLogout}>Logout</button>
+            <button onClick={onLogout}>Log Out</button>
           </>
         ) : (
           <>
@@ -23,7 +24,6 @@ export default function Root({ user, onLogout, onLogin }) {
           </>
         )}
       </nav>
-
       <Outlet context={{ onLogin }} />
     </div>
   );
