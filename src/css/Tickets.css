@@ -3,29 +3,53 @@
   display: flex;
   flex-direction: column;
   gap: 16px;
+  background-color: #f5f5f5; /* 浅灰背景，与其他页面统一 */
+  color: #222; /* 深色文字，保证可读性 */
+  font-family: Arial, sans-serif;
 }
 
 .ticket-card {
   padding: 16px;
   border-radius: 10px;
-  background: #949090;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  background: #ffffff; /* 卡片白色 */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  color: #333; /* 深灰文字 */
 }
 
 .ticket-card h3 {
   margin: 0 0 8px 0;
+  color: #222;
 }
 
 .ticket-card p {
   margin: 4px 0;
+  color: #555; /* 正文信息深灰 */
+}
+
+.tickets-list h4 {
+  margin: 8px 0;
+  color: #222; /* 小标题颜色 */
 }
 
 .tickets-list ul {
-  margin: 4px 0 0 16px;
+  margin: 10px 0 0 10px;
   padding: 0;
-  list-style: disc;
+  list-style-type:none;
+}
+
+.tickets-list li {
+  padding:10px 20px;
+  border-radius: 10px;
+  background-color: #f0f0f0; 
+  margin-bottom: 10px;
+  p {
+    margin: 2px 0;
+    color: #555; 
+  }
 }
 
 .error {
   color: red;
+  font-weight: bold;
+  margin-top: 20px;
 }

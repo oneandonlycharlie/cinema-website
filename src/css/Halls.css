@@ -1,0 +1,143 @@
+/* ---------- 页面容器 ---------- */
+.admin-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding: 2rem;
+  font-family: Arial, sans-serif;
+  background-color: #f5f5f5;
+  color: #222;
+}
+
+/* ---------- 通用输入 ---------- */
+input[type="text"],
+input[type="number"] {
+  padding: 0.5rem 0.75rem;
+  border-radius: 12px;
+  border: 1px solid #ccc;
+  background-color: #fafafa;
+  color: #333;
+  margin-right: 0.5rem;
+  margin-bottom: 0.5rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus {
+  outline: none;
+  border-color: #3498db;
+  box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+}
+
+/* ---------- 按钮 ---------- */
+button {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 8px;
+  background-color: #3498db;
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.2s;
+}
+
+button:hover {
+  background-color: #2980b9;
+  transform: translateY(-2px);
+}
+
+/* ---------- Hall 卡片 ---------- */
+.hall-card {
+  background-color: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.hall-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+.hall-card h2,
+.hall-card strong {
+  color: #222;
+}
+
+.hall-card p {
+  color: #555;
+  margin: 0.25rem 0;
+}
+
+/* ---------- Hall 操作按钮 ---------- */
+.hall-card .hall-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.hall-card .hall-actions button {
+  flex: 0 0 auto;
+  font-size: 0.9rem;
+  padding: 0.5rem 1rem;
+}
+
+/* ---------- Showtimes 列表 ---------- */
+.hall-card .showtimes-list {
+  list-style: none;
+  padding: 0;
+  margin: 0.5rem 0 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.hall-card .showtimes-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #f5f5f7;
+  padding: 0.5rem 0.75rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  color: #333;
+}
+
+.hall-card .showtimes-list li button {
+  flex: 0 0 auto;
+  padding: 0.4rem 0.8rem;
+  font-size: 0.85rem;
+  border-radius: 6px;
+  background-color: #e74c3c;
+  color: #fff;
+  border: none;
+}
+
+.hall-card .showtimes-list li button:hover {
+  background-color: #c0392b;
+}
+
+/* ---------- 添加 Hall 区域 ---------- */
+.add-hall-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+  background-color: #fff;
+  padding: 1rem;
+  border-radius: 16px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+}
+
+label {
+  font-weight: 600;
+  margin: 0.5rem;
+}
+
+button {
+    margin-left: 10px;
+}
+
