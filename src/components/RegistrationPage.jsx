@@ -11,6 +11,7 @@ export default function Register() {
     email: "",
     name: "",
     password: "",
+    role: "user",
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -50,6 +51,7 @@ export default function Register() {
           email: form.email.trim(),
           name: form.name.trim(),
           password: form.password,
+          role: form.role,
         }),
       });
 
@@ -112,7 +114,17 @@ export default function Register() {
             disabled={loading}
           />
         </label>
-
+        <label>
+            Register as
+            <select
+                value={form.role}
+                onChange={(e) => setForm({ ...form, role: e.target.value })}
+                disabled={loading}
+            >
+                <option value="user">User</option>
+                <option value="admin">Admin</option>
+            </select>
+            </label>
         <button className="btn" type="submit" disabled={loading}>
           {loading ? "Registering..." : "Register"}
         </button>
